@@ -3,13 +3,11 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppComponent } from './app.component';
 import { ComprimentoPipe } from './comprimento.pipe';
-import { CpfPipe } from './cpf.pipe';
 
 @NgModule({
   declarations: [
     AppComponent,
-    ComprimentoPipe,
-    CpfPipe
+    ComprimentoPipe
   ],
   imports: [
     BrowserModule
