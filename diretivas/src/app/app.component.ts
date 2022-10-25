@@ -39,4 +39,9 @@ export class AppComponent {
       preco: this.preco
     })
   }
+
+  deletarProduto(p: Produto): void {
+    const index = this.produtos.indexOf(p)
+    this.produtos.splice(index, 1)
+  }
 }
