@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-reactive',
@@ -28,13 +28,58 @@ export class ReactiveComponent implements OnInit {
    * dela, para que o acesso aos valores seja mais
    * simples
    */
-  dadosForm: FormGroup = new FormGroup({
-    nome: new FormControl(''),
-    email: new FormControl(''),
-    senha: new FormControl('')
+
+/*   dadosForm: FormGroup = new FormGroup({
+    nome: new FormControl('', [ Validators.required, Validators.minLength(5) ]),
+    email: new FormControl('', [ Validators.email, Validators.required ]),
+    senha: new FormControl(''),
+    endereco: new FormGroup({
+      cep: new FormControl(''),
+      rua: new FormControl(''),
+      complemento: new FormControl(''),
+      numero: new FormControl('')
+    })
+  }) */
+
+  /**
+   * O método group() do formBuilder é responsável por criar um novo
+   * Objeto do tipo FormGroup
+   */
+
+  /**
+   * FormArray -> É utilizado para armazenar form controls, form groups ou
+   * outros form arrays dentro de um array
+   *
+   * O FormArray precisa estar dentro de um FormGroup
+   */
+  dadosForm: FormGroup = this.fb.group({
+    nome: ['', [ Validators.required, Validators.minLength(5) ]], // [''] = new FormControl('')
+    email: [''],
+    senha: [''],
+    endereco: this.fb.group({
+      cep: [''],
+      rua: [''],
+      complemento: [''],
+      numero: ['']
+    }),
+    telefones: this.fb.array([
+      ['']
+    ])
   })
 
-  constructor() { }
+  /**
+   * Transformar o Abstract Control -> Form Array
+   */
+  tels = this.dadosForm.get('telefones') as FormArray
+
+  /*
+    Form Builder -> Objeto que permite criar FormControls, FormGroups ou FormArrays com uma
+    sintaxe menor
+  */
+
+  constructor(
+    private fb: FormBuilder
+  ) { }
 
   ngOnInit(): void {
   }
@@ -47,5 +92,9 @@ export class ReactiveComponent implements OnInit {
     */
 
     console.log(this.dadosForm.value)
+  }
+
+  adicionarCampoDeTelefone() {
+    this.tels.push(new FormControl(''))
   }
 }
